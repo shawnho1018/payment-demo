@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapi-crud
+spec:
+  selector:
+    matchLabels:
+      app: webapi-crud
+  template:
+    metadata:
+      labels:
+        app: webapi-crud
+    spec:
+      # initContainers:
+      # - name: flyway
+      #   image: redgate/flyway
+      #   command: ["flyway", "migrate"]
+      #   volumeMounts:
+      #   - name: secrets
+      #     mountPath: /flyway/conf/flyway.conf
+      #     subPath: flyway.conf
+      #   - name: flyway-sql
+      #     mountPath: /flyway/sql
+      containers:
+      - name: webapi-crud
+        image: asia-east1-docker.pkg.dev/shawnho-looker-2024/shawnho-looker-2024/webapi-crud
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1024Mi"
+            cpu: "500m"
+        ports:
+        - name: liveness-port
+          containerPort: 9080
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: liveness-port
+        # volumeMounts:
+        # - name: secrets
+        #   mountPath: /App/appsettings.json
+        #   subPath: appsettings.json
+      # volumes:
+      # - name: secrets
+      #   secret:
+      #     secretName: appsetting
+      # - name: flyway-sql
+      #   configMap:
+      #     name: flyway-sql

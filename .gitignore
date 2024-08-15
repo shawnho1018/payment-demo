@@ -1,0 +1,7 @@
+.terraform
+.terraform.lock*
+terraform.tfstate*
+out/
+obj/
+out.json
+bin/

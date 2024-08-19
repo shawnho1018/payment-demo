@@ -5,3 +5,4 @@ out/
 obj/
 out.json
 bin/
+demo.py

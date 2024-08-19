@@ -34,6 +34,15 @@ spec:
         ports:
         - name: liveness-port
           containerPort: 9080
+        env:
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: http://bindplane-node-agent.bindplane-agent.svc.cluster.local:4317
+        - name: OTEL_LOG_LEVEL
+          value: debug
+        - name: ASPNETCORE_URLS
+          value: http://+:9080
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Production
         livenessProbe:
           httpGet:
             path: /healthz

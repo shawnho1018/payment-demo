@@ -12,3 +12,4 @@ manifests:
   rawYaml:
     - k8s-manifests/deployment.yaml
     - k8s-manifests/service.yaml
+    - k8s-manifests/todo-istio.yaml

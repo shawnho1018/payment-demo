@@ -68,7 +68,7 @@ else
             .AddRuntimeInstrumentation() // 添加執行時指標
             .AddHttpClientInstrumentation() // 添加 HttpClient 指標
             .AddAspNetCoreInstrumentation() // 添加 ASP.NET Core 指標
-            .AddMeter("Npgsql", "Microsoft.AspNetCore.Hosting", "Microsoft.AspNetCore.Server.Kestrel") // 添加 Npgsql、ASP.NET Core Hosting 和 Kestrel 指標
+            .AddMeter("Npgsql", "Microsoft.AspNetCore.Hosting", "Microsoft.AspNetCore.Server.Kestrel", "TodoApi.Controllers.OrderController") // 添加 Npgsql、ASP.NET Core Hosting 和 Kestrel 指標
             .AddView("http.server.request.duration",
             new ExplicitBucketHistogramConfiguration
             {

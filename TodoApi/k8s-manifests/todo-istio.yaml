@@ -1,0 +1,44 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: todo-gateway
+  namespace: gateway
+spec:
+  # The selector matches the ingress gateway pod labels.
+  # If you installed Istio using Helm following the standard documentation, this would be "istio=ingress"
+  selector:
+    app: asm-ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: todo-vs
+  namespace: default
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - gateway/todo-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /demo
+    rewrite:
+      uri: /order
+    route:
+    - destination:
+        port:
+          number: 80
+        host: webapi-crud
+  - route:
+    - destination:
+        port:
+          number: 80
+        host: webapi-crud

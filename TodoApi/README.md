@@ -61,6 +61,6 @@ dotnet add package --prerelease OpenTelemetry.Instrumentation.SqlClient
 ```
 此次由於我們是使用Npsql，我們需要使用對應的[PostgreSQL Instrumentation Tool](https://www.npgsql.org/doc/diagnostics/overview.html)，針對[Trace](https://www.npgsql.org/doc/diagnostics/tracing.html)與[Metrics](https://www.npgsql.org/doc/diagnostics/metrics.html)進行監控。
 ### Trace
-這部分的實踐主要在Program.cs 以及OrderService.cs中。在Program.cs 中，加入AddSource("NPGSQL")以及AddNpgsql()，提供OrderService一個可以使用的TracerProviderBuilder。如果希望有更好的Trace，可以在OrderService.cs中提供對應的span資訊
+這部分的實踐主要在Program.cs 以及OrderService.cs中。在Program.cs 中，加入AddSource("NPGSQL")以及AddNpgsql()，提供OrderService一個可以使用的TracerProviderBuilder。如果希望有更好的Trace，可以在OrderService.cs中提供對應的span資訊。
 ### Metrics
 這部分的實踐主要在Program.cs中，主要通過AddMeter("Npgsql")引入相關的監控數據，並通過OpenTelemetry發送到後端OpenTelemetry Collector中。

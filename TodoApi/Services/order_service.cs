@@ -97,4 +97,21 @@ public class OrderService // 定義 OrderService 類別
             throw; // 拋出異常
         }
     }
+    // 根據訂單編號刪除特定訂單
+    public int DeleteByOrderNumber(string orderNumber)
+    {
+        using var span = _tracer.StartActiveSpan("OrderService.DeleteByOrderNumber"); // 開始一個新的追蹤 Span，名稱為 "OrderService.DeleteByOrderNumber"
+        try {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                var sql = "DELETE FROM public.orderinfo WHERE OrderNumber = @orderNumber";
+                return connection.Execute(sql, new {orderNumber});
+            }
+        }
+        catch (Exception ex)
+        {
+            span.RecordException(ex);
+            throw;
+        }
+    }
 }

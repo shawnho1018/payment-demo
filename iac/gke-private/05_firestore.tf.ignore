@@ -1,0 +1,18 @@
+resource "google_firestore_database" "database" {
+  project     = var.project_id
+  name        = "mydata"
+  location_id = "asia-east1"
+  type        = "DATASTORE_MODE"
+
+  delete_protection_state = "DELETE_PROTECTION_DISABLED"
+  deletion_policy         = "DELETE"
+}
+
+resource "google_firestore_backup_schedule" "daily-backup" {
+  project  = var.project_id
+  database = google_firestore_database.database.name
+
+  retention = "604800s" // 7 days (maximum possible value for daily backups)
+
+  daily_recurrence {}
+}

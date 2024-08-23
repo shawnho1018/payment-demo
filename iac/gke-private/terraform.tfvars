@@ -1,0 +1,13 @@
+project_id = "shawnho-looker-2024"
+cluster_name = "clustertw"
+region = "asia-east1"
+zones = ["asia-east1-a", "asia-east1-b", "asia-east1-c"]
+vm_type = "e2-standard-8"
+network = "default"
+subnet = "gke-subnet"
+ip_range_pods = "podrange"
+ip_range_services = "servicerange"
+master_ipv4_cidr_block = "10.4.1.0/28"
+iac_servicekey_path = "/Users/shawnho/gcp-keys/shawnho-looker-2024-sa.key"
+bindplane_username = "admin"
+bindplane_password = "admin"

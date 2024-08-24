@@ -7,3 +7,4 @@ out.json
 bin/
 demo.py
 dice/
+.DS_Store

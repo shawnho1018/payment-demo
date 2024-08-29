@@ -66,3 +66,12 @@ dotnet add package --prerelease OpenTelemetry.Instrumentation.SqlClient
 這部分的實踐主要在Program.cs 以及OrderService.cs中。在Program.cs 中，加入AddSource("NPGSQL")以及AddNpgsql()，提供OrderService一個可以使用的TracerProviderBuilder。如果希望有更好的Trace，可以在OrderService.cs中提供對應的span資訊。
 ### Metrics
 這部分的實踐主要在Program.cs中，主要通過AddMeter("Npgsql")引入相關的監控數據，並通過OpenTelemetry發送到後端OpenTelemetry Collector中。
+### 壓測腳本
+本專案也提供一個locust的測試腳本，路徑在locust/stress-test.py ，有興趣的讀者可以通過以下的指令安裝，並啟動測試
+```python
+# 安裝locust
+pip install locust
+
+# 執行腳本
+locust -f locust/stress-test.py -H http://todo.shawnk8s.com
+```

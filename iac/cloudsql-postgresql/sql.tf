@@ -2,7 +2,10 @@ provider "google" {
   project = var.project_id
   region = var.region
 }
-
+provider "google-beta" {
+  project = var.project_id
+  region = var.region
+}
 #resource "google_sql_database_instance" "read_replica" {
 #  name                 = "order-db-replica"
 #  master_instance_name = google_sql_database_instance.default.name
@@ -19,10 +22,41 @@ provider "google" {
 #  deletion_protection = false
 #}
 
+data "google_kms_key_ring" "keyring" {
+  name     = "gcs-keyring"
+  location = var.region
+}
+
+resource "google_kms_crypto_key" "key" {
+  name            = "orderdb4"
+  key_ring        = data.google_kms_key_ring.keyring.id
+  rotation_period = "7776000s"
+
+  lifecycle {
+    prevent_destroy = false
+  }
+}
+
+resource "google_project_service_identity" "gcp_sa_cloud_sql" {
+  provider = google-beta
+  service  = "sqladmin.googleapis.com"
+}
+
+resource "google_kms_crypto_key_iam_binding" "crypto_key" {
+  provider      = google-beta
+  crypto_key_id = google_kms_crypto_key.key.id
+  role          = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
+
+  members = [
+    "serviceAccount:${google_project_service_identity.gcp_sa_cloud_sql.email}",
+  ]
+}
+
 resource "google_sql_database_instance" "default" {
   name             = "order-db"
   region           = var.region
   database_version = "POSTGRES_14"
+  encryption_key_name = google_kms_crypto_key.key.id
   settings {
     tier = "db-f1-micro"
     ip_configuration {

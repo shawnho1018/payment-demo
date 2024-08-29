@@ -1,5 +1,6 @@
 # TodoAPI
-此應用程式展示如何使用 .NET core 6 WebAPI 與Dapper 建立 CRUD 應用程式 + CloudSQL on PostgreSQL。通過這個服務，我們也一併展示如何使用flyway，進行資料庫上版，以及OpenTelemtry對.NET Core的服務進行完整的監控。
+此應用程式展示如何使用 .NET core 6 WebAPI 與Dapper 建立 CRUD 應用程式 + CloudSQL on PostgreSQL。通過這個服務，我們也一併展示如何使用flyway，進行資料庫上版，以及OpenTelemtry對.NET Core的服務進行完整的監控。其架構圖如下：
+![架構圖](images/architecture.png)
 
 ## Order APIs
 目前的實作提供四個 API Samples:
@@ -53,6 +54,7 @@ dotnet add package OpenTelemetry.Exporter.Console
 dotnet add package Npgsql.OpenTelemetry
 dotnet add package OpenTelemetry.Instrumentation.Http
 dotnet add package OpenTelemetry.Instrumentation.Runtime
+dotnet add package OpenTelemetry.Instrumentation.Process
 ```
 
 dotnet core對於其原生元件提供了AutoInstrumentation (e.g. AspNetCore)，主要調整的部分是在program.cs。如果後端是使用SQL Server，可以直接使用pre-release的sqlclient instrumentation。
